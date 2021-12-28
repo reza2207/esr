@@ -101,7 +101,7 @@ class User extends CI_Controller {
 				
 				if ($this->User_model->resolve_user_login($username, $password)) {
 					
-					$user  = $this->User_model->get_user($username);
+					$user  = $this->User_model->get_user($username)->row();
 					
 					if($user->status == 'aktif'){
 						// set session user datas
@@ -109,7 +109,7 @@ class User extends CI_Controller {
 						$_SESSION['logged_in']    = (bool)true;
 						$_SESSION['role']     = $user->role;
 						$_SESSION['nama'] = (string)$user->nama;
-						$_SESSION['icon'] = $user->profil_pict == '' ? '/gambar/profile/user.png' : $user->profil_pict ;
+						$_SESSION['icon'] = $user->profil_pict == '' ? 'user.png' : $user->profil_pict ;
 						$_SESSION['jabatan'] = $user->jabatan;
 						$respons_ajax['status'] = 'success';
 						$respons_ajax['pesan'] = 'Welcome <b>'.$user->nama.'</b>';
@@ -458,5 +458,81 @@ class User extends CI_Controller {
 		$this->load->view('add_user');
 	}
 
-	
+	public function management()
+	{
+		$_SESSION['role'] = 'superuser';
+		if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+			$data = new stdClass();
+			$data->title = 'Management User';
+			$data->page = 'User';
+			$this->load->view('header', $data);
+			$this->load->view('user');
+		}else{
+			$this->load->helper('form');
+			$this->load->view('login');
+		}
+	}
+
+	public function get_data()
+	{	
+		if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+			$list = $this->User_model->get_datatables();
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $field) {
+				$no++;
+				$row = array();
+                $row['no'] = $no;
+                $row['id'] = $field->id_user;
+				$row['username'] = $field->username;
+				$row['nama'] = $field->nama;
+				$row['role'] = $field->role;
+				$row['question'] = $field->recovery_q;
+				$row['answer'] = $field->answer_rec;
+				$row['status'] = $field->status;
+				$row['profil_pict'] = $field->profil_pict;
+				$row['birthdate'] = $field->birthdate;
+				$row['email'] = $field->email;
+				$data[] = $row;
+				
+			}
+
+			$output = array(
+				"draw"=> $_POST['draw'], 
+				"recordsTotal" =>$this->User_model->count_all(),
+				"recordsFiltered"=>$this->User_model->count_filtered(),
+				"data"=>$data,
+			);
+			echo json_encode($output);
+		}else{
+			
+			$this->load->view('header_login');
+			$this->load->view('login');
+		}
+	}
+
+	public function update_status()
+	{	
+		$id = $this->input->post('id');
+		$val = $this->input->post('value');
+
+		if($this->User_model->update_status($id, $val))
+				{
+					$data = new stdClass();
+					$data->type = 'success';
+					$data->message = 'Your status account is updated!';
+					
+					$kata = 'id: '.$id.' telah '.$val;
+					$username = $_SESSION['username'];
+					$this->User_model->update_log($kata, $username);
+				}else{
+					$data = new stdClass();
+					$data->type = 'error';
+					$data->message = 'Failed to update';
+				}
+				return $this->output
+				        ->set_content_type('application/json')
+				        ->set_output(json_encode($data));
+
+	}
 }

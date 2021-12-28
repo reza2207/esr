@@ -61,4 +61,5 @@ $route['forgot_password'] = 'user/forgot_password';
 $route['add_user'] = 'user/add_user';
 $route['register/get_detail_masuk/(:any)'] = 'register/get_detail_masuk';
 $route['daftar_baru'] = 'user/daftar_baru';
+$route['management_user'] = 'user/management';
 $route['belajar'] = 'welcome/belajar';

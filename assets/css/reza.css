@@ -708,3 +708,25 @@ span.badge{
     width: 50px;
     margin:auto;
 }
+
+#table-detail tr:hover
+{
+background: #D7A42B;color:white;
+}
+#table-detail tr td {
+     padding-top:0px;padding-bottom:0px;font-size: 12px
+  }
+
+#table-detail td:first-of-type{
+  width: 270px;font-weight: bolder;
+}
+#table-detail tr:first-of-type{
+  background-color: #D7A42B;color:white;
+}
+#modal_ubah label{
+  color:white;
+}
+
+.hapus, .edit{
+   cursor:pointer;
+}

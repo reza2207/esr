@@ -130,11 +130,9 @@ class Barang_in_model extends CI_Model {
 	}
 	public function update($id, $idbrg,$jml,$divisi, $created)
 	{
-		$data = array('item'=>$item, 
-        'merk'=>$merk,
-        'type'=>$tipe, 
-        'warna'=>$warna,
-        'min_stock'=>$min,
+		$data = array('id_barang' => $idbrg, 
+		'jumlah'=>$jml, 
+		'divisi'=>$divisi,
 		'created_by'=> $created);
 
 		$this->db->where('id', $id);

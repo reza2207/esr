@@ -34,8 +34,8 @@ class Kliring extends CI_Controller {
 	{	
 		if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
 			$data = new stdClass();
-			$data->title = 'Master Data Barang';
-			$data->page = 'barang';
+			$data->title = 'Kliring';
+			$data->page = 'umum';
 			$data->role = $_SESSION['role'];
             //$data->url = $this->Barang_model->get_url()->result();
             //$data->item = $this->Barang_model->get_item()->result();
@@ -52,7 +52,7 @@ class Kliring extends CI_Controller {
 	public function get_data()
 	{	
 		if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
-			$list = $this->Barang_model->get_datatables();
+			$list = $this->Kliring_model->get_datatables();
 			$data = array();
 			$no = $_POST['start'];
 			foreach ($list as $field) {
@@ -60,11 +60,11 @@ class Kliring extends CI_Controller {
 				$row = array();
                 $row['no'] = $no;
                 $row['id'] = $field->id;
-				$row['item'] = $field->item;
-				$row['merk'] = $field->merk;
-				$row['type'] = $field->type;
-                $row['warna'] = $field->warna;
-                $row['min_stock'] = $field->min_stock;
+				$row['no_surat'] = $field->no_surat;
+				$row['tgl_surat'] = tgl1($field->tgl_surat);
+				$row['tujuan'] = $field->tujuan;
+                $row['penerima'] = $field->penerima;
+                $row['tgl_terima'] = tgl1($field->tgl_terima);
 				$row['date_created'] = $field->created_at;
                 $row['created_by'] = $field->created_by;
 				$row['deleted_at'] = $field->deleted_at;
@@ -74,8 +74,8 @@ class Kliring extends CI_Controller {
 
 			$output = array(
 				"draw"=> $_POST['draw'], 
-				"recordsTotal" =>$this->Barang_model->count_all(),
-				"recordsFiltered"=>$this->Barang_model->count_filtered(),
+				"recordsTotal" =>$this->Kliring_model->count_all(),
+				"recordsFiltered"=>$this->Kliring_model->count_filtered(),
 				"data"=>$data,
 			);
 			return $this->output

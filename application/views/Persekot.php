@@ -238,6 +238,7 @@ background: #D7A42B;color:white;
         "url": "<?= site_url('persekot/get_data');?>",
         "type": "POST",
         "data": function ( data ) {
+          console.log(data)
 					data.tgla = tanggal_r($('#awal').val());
 					data.tglb = tanggal_r($('#akhir').val());
 				}

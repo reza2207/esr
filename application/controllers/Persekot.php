@@ -60,7 +60,6 @@ class Persekot extends CI_Controller {
 				$row = array();
                 $row['no'] = $no;
                 $row['id'] = $field->id;
-               
 				$row['tgl_minta'] = tgl_indo($field->tgl_permintaan);
 				$row['no_rek'] = $field->no_rekening_pskt;
 				$row['nama_rek'] = $field->nama_rekening_pskt;
@@ -69,7 +68,7 @@ class Persekot extends CI_Controller {
                 $row['nominal'] = titik($field->nominal);
 				$row['tgl_proses'] = tgl_indo($field->tgl_proses);
 				$row['tgl_penyelesaian'] = tgl_indo($field->tgl_penyelesaian);
-				$row['sli'] = $field->sli;
+				$row['sli'] = $field->sli == NULL ? selisih($field->tgl_proses).' hari' : $field->sli.' hari';
 				$row['berjalan'] = $field->berjalan;
 				$data[] = $row;
 				

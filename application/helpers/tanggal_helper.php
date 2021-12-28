@@ -208,7 +208,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	}
 
 
-	function jmlharikerja( $tgl_awal, $tgl_akhir, $tgl_libur){
+	function jmlharikerja( $tgl_awal, $tgl_akhir, $tgl_libur = NULL){
 	    $awal_tgl = strtotime( $tgl_awal );
 	    $akhir_tgl = strtotime( $tgl_akhir );
 	    
@@ -279,4 +279,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$ex = explode(" ",$val);
 			return tgl_indo($ex[0]).' '.$ex[1];
 		}
+	}
+
+	function selisih($start){
+		$date1 = new DateTime($start);
+      $date2 = new DateTime(date('Y-m-d'));
+      $interval = $date1->diff($date2);
+      return $interval->days;
+      
 	}

@@ -34,7 +34,7 @@ class Rek_persekot extends CI_Controller {
 	{	
 		if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
 			$data = new stdClass();
-			$data->title = 'Persekot';
+			$data->title = 'Rekening Persekot';
 			$data->page = 'persekot';
 			$data->role = $_SESSION['role'];
 			$data->rek = $this->Rek_persekot_model->get_data()->result();

@@ -89,13 +89,7 @@ class Barang_model extends CI_Model {
 		return $this->db->count_all_results();
 	}
 
-	public function get_url()
-	{
-		$this->db->from('dir_scan');
-		$this->db->order_by('id', 'DESC');
-		return $this->db->get();
-	}
-
+	
 	public function delete($id)
 	{
 		$data = array(
@@ -155,13 +149,7 @@ class Barang_model extends CI_Model {
 		return $this->db->update($this->table, $data);
 	}
 
-	public function get_data_id($id)
-	{
-		$this->db->select('url, nama_file');
-		$this->db->from($this->table);
-		$this->db->where('id', $id);
-		return $this->db->get();
-	}
+	
 
     public function get_detail($id)
 	{
